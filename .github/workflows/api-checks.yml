@@ -1,0 +1,63 @@
+name: Build and check API
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 22
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.9
+
+      - name: Compile assets
+        working-directory: api
+        shell: bash
+        run: ./compile-assets.main.kts
+
+      - name: Run checks
+        working-directory: api
+        run: ./gradlew build check shadowJar
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set container vars
+        working-directory: api
+        shell: bash
+        run: |
+          echo "CONTAINER_TAG=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "STATIC_ASSETS_PATH=build/static" >> $GITHUB_ENV
+          echo "TEMPLATE_ASSETS_PATH=build/templates" >> $GITHUB_ENV
+          echo "JAR_PATH=$(find app/build/libs/*-all.jar | head -n1)" >> $GITHUB_ENV
+
+      - name: Build container
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          context: "./api"
+          platforms: "linux/amd64,linux/arm64"
+          build-args: |
+            jar=${{ env.JAR_PATH }}
+            static_assets=${{ env.STATIC_ASSETS_PATH }}
+            template_assets=${{ env.TEMPLATE_ASSETS_PATH }}
+            version=${{ env.CONTAINER_TAG }}
+          tags: github.com/lopcode/photo-fox:${{ env.CONTAINER_TAG }}

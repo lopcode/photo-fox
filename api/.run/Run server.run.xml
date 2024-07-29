@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run server" type="JetRunConfigurationType">
+    <envs>
+      <env name="APP_HOST" value="127.0.0.1" />
+      <env name="APP_PORT" value="8080" />
+      <env name="WEB_PATH_PREFIX" value="" />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.photofox.MainKt" />
+    <module name="photo-fox-api.app.main" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
