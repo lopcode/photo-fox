@@ -90,7 +90,7 @@ dependencies {
     implementation("org.jdbi:jdbi3-sqlobject")
     implementation("org.jdbi:jdbi3-kotlin")
     implementation("org.jdbi:jdbi3-kotlin-sqlobject")
-    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
+    implementation("net.logstash.logback:logstash-logback-encoder:8.0")
 }
 
 application {
