@@ -84,7 +84,7 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.5.6")
     implementation("org.flywaydb:flyway-core:10.17.0")
     implementation("org.flywaydb:flyway-database-postgresql:10.17.0")
-    implementation(platform("org.jdbi:jdbi3-bom:3.45.2"))
+    implementation(platform("org.jdbi:jdbi3-bom:3.45.3"))
     implementation("org.postgresql:postgresql:42.7.3")
     implementation("org.jdbi:jdbi3-core")
     implementation("org.jdbi:jdbi3-sqlobject")
