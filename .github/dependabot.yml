@@ -4,6 +4,11 @@ updates:
     directory: "/api"
     schedule:
       interval: "weekly"
+    groups:
+      ktor:
+        patterns: ["io.ktor*"]
+      database:
+        patterns: [ "org.jdbi*", "org.flyway*", "org.postgresql*" ]
   - package-ecosystem: "docker"
     directory: "/api"
     schedule:

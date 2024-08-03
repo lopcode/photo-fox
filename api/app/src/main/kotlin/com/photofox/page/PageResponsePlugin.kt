@@ -15,10 +15,7 @@ class PageResponsePlugin {
     companion object Plugin : BaseApplicationPlugin<ApplicationCallPipeline, Any, Plugin> {
         override val key = AttributeKey<Plugin>("PageResponse")
 
-        override fun install(
-            pipeline: ApplicationCallPipeline,
-            configure: Any.() -> Unit,
-        ): Plugin {
+        override fun install(pipeline: ApplicationCallPipeline, configure: Any.() -> Unit): Plugin {
             pipeline.sendPipeline.intercept(ApplicationSendPipeline.Before) { value ->
                 if (value is PageResponse<*>) {
                     context.response.cacheControl(
