@@ -124,10 +124,7 @@ private fun Application.configureRouting() {
     }
 }
 
-suspend fun <ViewModel : Any> RoutingCall.respondPage(
-    pageTemplateName: String,
-    viewModel: ViewModel,
-) {
+suspend fun <ViewModel : Any> RoutingCall.respondPage(pageTemplateName: String, viewModel: ViewModel) {
     return this.respond(
         PageResponse(
             makePageTemplatePath(pageTemplateName),

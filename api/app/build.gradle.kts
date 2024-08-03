@@ -28,10 +28,6 @@ testing {
         val test by getting(JvmTestSuite::class) {
             useKotlinTest("2.0.0")
             testType = TestSuiteType.UNIT_TEST
-
-            dependencies {
-                implementation("io.ktor:ktor-server-test-host")
-            }
         }
 
         register<JvmTestSuite>("integrationTest") {
@@ -40,6 +36,8 @@ testing {
 
             dependencies {
                 implementation(project())
+                implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
+                implementation("io.ktor:ktor-server-test-host")
             }
 
             targets {
@@ -73,6 +71,7 @@ tasks.withType<ShadowJar> {
 }
 
 dependencies {
+    implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-netty")
     implementation("io.ktor:ktor-server-call-logging")
@@ -95,4 +94,9 @@ dependencies {
 
 application {
     mainClass = "com.photofox.MainKt"
+}
+
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    version.set("1.3.1")
+    verbose.set(true)
 }
