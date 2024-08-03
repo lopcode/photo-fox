@@ -1,4 +1,4 @@
-FROM eclipse-temurin:22@sha256:a0301bbe5818c2e79bf4385d94aa1c29caa1aba8a74bf10a86225922bfbdc4d6
+FROM eclipse-temurin:22@sha256:765569cd83ecc47b87cc1b5c4d986f367edac0fad2979bd9e2dde99c211d3727
 
 ARG jar
 ARG version="test"
