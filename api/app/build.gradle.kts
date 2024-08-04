@@ -23,11 +23,20 @@ java {
     }
 }
 
+kotlin {
+    jvmToolchain(22)
+}
+
 testing {
     suites {
         val test by getting(JvmTestSuite::class) {
             useKotlinTest("2.0.0")
             testType = TestSuiteType.UNIT_TEST
+
+            dependencies {
+                implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
+                implementation("io.ktor:ktor-server-test-host")
+            }
         }
 
         register<JvmTestSuite>("integrationTest") {
@@ -36,8 +45,11 @@ testing {
 
             dependencies {
                 implementation(project())
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
+                implementation("org.testcontainers:testcontainers:1.20.1")
                 implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
-                implementation("io.ktor:ktor-server-test-host")
+                implementation("io.ktor:ktor-client-core")
+                implementation("io.ktor:ktor-client-cio")
             }
 
             targets {
@@ -62,6 +74,10 @@ tasks.withType<Test> {
 tasks.named("check") {
     dependsOn(testing.suites.named("test"))
     dependsOn(testing.suites.named("integrationTest"))
+}
+
+tasks.named("integrationTest") {
+    dependsOn(tasks.named("shadowJar"))
 }
 
 tasks.withType<ShadowJar> {
