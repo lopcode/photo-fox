@@ -11,6 +11,8 @@ COPY $static_assets /opt/app/static/
 COPY $template_assets /opt/app/templates/
 
 ENV JAVA_OPTS=""
+ENV APP_PORT=8080
+ENV APP_HOST=127.0.0.1
 
 LABEL org.opencontainers.image.source="https://github.com/lopcode/photo-fox"
 LABEL org.opencontainers.image.revision="$version"
