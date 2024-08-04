@@ -1,1 +1,18 @@
 @import "normalize.css";
+
+:root {
+    --background-color: #f6f6f6;
+    --text-color: #1f1f1f;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #1f1f1f;
+        --text-color: #f6f6f6;
+    }
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
