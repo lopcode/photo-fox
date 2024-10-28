@@ -1,4 +1,4 @@
-package com.photofox.page
+package com.photofox.web.page
 
 import io.ktor.http.CacheControl
 import io.ktor.server.application.ApplicationCallPipeline

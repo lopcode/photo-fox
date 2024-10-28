@@ -8,6 +8,7 @@
     <option name="MAIN_CLASS_NAME" value="com.photofox.MainKt" />
     <module name="photo-fox-api.app.main" />
     <shortenClasspath name="NONE" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

@@ -7,7 +7,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     kotlin("jvm") version "2.0.20"
     kotlin("plugin.serialization") version "2.0.20"
-    id("io.ktor.plugin") version "3.0.0-beta-2"
+    id("io.ktor.plugin") version "3.0.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     application
@@ -45,9 +45,9 @@ testing {
 
             dependencies {
                 implementation(project())
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
                 implementation("org.testcontainers:testcontainers:1.20.1")
-                implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
+                implementation(platform("io.ktor:ktor-bom:3.0.0"))
                 implementation("io.ktor:ktor-client-core")
                 implementation("io.ktor:ktor-client-cio")
             }
@@ -87,7 +87,7 @@ tasks.withType<ShadowJar> {
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
+    implementation(platform("io.ktor:ktor-bom"))
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-netty")
     implementation("io.ktor:ktor-server-call-logging")
@@ -96,16 +96,17 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation")
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-mustache")
-    implementation("ch.qos.logback:logback-classic:1.5.7")
-    implementation("org.flywaydb:flyway-core:10.17.2")
-    implementation("org.flywaydb:flyway-database-postgresql:10.17.2")
-    implementation(platform("org.jdbi:jdbi3-bom:3.45.4"))
+    implementation("ch.qos.logback:logback-classic:1.5.11")
+    implementation("org.flywaydb:flyway-core:10.20.0")
+    implementation("org.flywaydb:flyway-database-postgresql:10.20.0")
+    implementation(platform("org.jdbi:jdbi3-bom:3.46.0"))
     implementation("org.postgresql:postgresql:42.7.4")
     implementation("org.jdbi:jdbi3-core")
     implementation("org.jdbi:jdbi3-sqlobject")
     implementation("org.jdbi:jdbi3-kotlin")
     implementation("org.jdbi:jdbi3-kotlin-sqlobject")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
+    implementation("app.photofox.vips-ffm:vips-ffm-core:1.2.1")
 }
 
 application {

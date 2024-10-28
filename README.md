@@ -22,5 +22,4 @@ And from a technical perspective:
 Many great options exist, but none quite scratched my itch, and making something bespoke sounded like a really fun side
 project.
 
-If you like the idea, star the repo, or let me know and share your thoughts on [Bluesky](https://bsky.app/profile/lopcode.com),
-or [GitHub Discussions](https://github.com/lopcode/photo-fox/discussions).
+If you like the idea, star the repo, or let me know and share your thoughts on [GitHub Discussions](https://github.com/lopcode/photo-fox/discussions).
