@@ -1,8 +1,10 @@
 package com.photofox
 
 import com.github.mustachejava.DefaultMustacheFactory
-import com.photofox.page.PageResponse
-import com.photofox.page.PageResponsePlugin
+import com.photofox.api.CallHandling
+import com.photofox.api.UploadPhotoRoute
+import com.photofox.web.page.PageResponse
+import com.photofox.web.page.PageResponsePlugin
 import io.ktor.http.HttpHeaders
 import io.ktor.serialization.kotlinx.json.json
 import io.ktor.server.application.Application
@@ -25,8 +27,10 @@ import io.ktor.server.request.uri
 import io.ktor.server.request.userAgent
 import io.ktor.server.response.respond
 import io.ktor.server.response.respondText
+import io.ktor.server.routing.Routing
 import io.ktor.server.routing.RoutingCall
 import io.ktor.server.routing.get
+import io.ktor.server.routing.post
 import io.ktor.server.routing.route
 import io.ktor.server.routing.routing
 import java.io.File
@@ -109,11 +113,13 @@ private fun CallLoggingConfig.setUpCallLoggingMDC() {
 
 private fun Application.configureRouting() {
     val webPathPrefix = System.getenv()["WEB_PATH_PREFIX"] ?: "web"
+    val uploadPhotoRoute = UploadPhotoRoute()
     routing {
         route("/api") {
             get("/health") {
                 call.respondText("🦊📸")
             }
+            post("/v1/photo", uploadPhotoRoute)
         }
         route("/$webPathPrefix") {
             get("/") {
@@ -124,7 +130,10 @@ private fun Application.configureRouting() {
     }
 }
 
-suspend fun <ViewModel : Any> RoutingCall.respondPage(pageTemplateName: String, viewModel: ViewModel) {
+suspend fun <ViewModel : Any> RoutingCall.respondPage(
+    pageTemplateName: String,
+    viewModel: ViewModel,
+) {
     return this.respond(
         PageResponse(
             makePageTemplatePath(pageTemplateName),
@@ -144,4 +153,10 @@ suspend fun RoutingCall.respondPage(pageTemplateName: String) {
 
 private fun makePageTemplatePath(pageTemplateName: String): String {
     return "page/$pageTemplateName.mustache"
+}
+
+private fun Routing.post(path: String, handler: CallHandling) {
+    post(path) {
+        handler.handle(call)
+    }
 }

@@ -1,4 +1,4 @@
-package com.photofox.page
+package com.photofox.web.page
 
 data class PageResponse<ViewModel : Any>(
     val templatePath: String,
