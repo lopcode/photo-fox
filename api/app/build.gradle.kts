@@ -96,7 +96,7 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation")
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-mustache")
-    implementation("ch.qos.logback:logback-classic:1.5.11")
+    implementation("ch.qos.logback:logback-classic:1.5.12")
     implementation("org.flywaydb:flyway-core:10.20.0")
     implementation("org.flywaydb:flyway-database-postgresql:10.20.0")
     implementation(platform("org.jdbi:jdbi3-bom:3.46.0"))
