@@ -34,7 +34,7 @@ testing {
             testType = TestSuiteType.UNIT_TEST
 
             dependencies {
-                implementation(platform("io.ktor:ktor-bom:3.0.0-beta-2"))
+                implementation(platform("io.ktor:ktor-bom:3.0.0"))
                 implementation("io.ktor:ktor-server-test-host")
             }
         }
