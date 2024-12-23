@@ -7,7 +7,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     kotlin("jvm") version "2.0.20"
     kotlin("plugin.serialization") version "2.0.20"
-    id("io.ktor.plugin") version "3.0.0"
+    id("io.ktor.plugin") version "3.0.3"
     id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     application
@@ -34,7 +34,7 @@ testing {
             testType = TestSuiteType.UNIT_TEST
 
             dependencies {
-                implementation(platform("io.ktor:ktor-bom:3.0.0"))
+                implementation(platform("io.ktor:ktor-bom:3.0.3"))
                 implementation("io.ktor:ktor-server-test-host")
             }
         }
@@ -47,7 +47,7 @@ testing {
                 implementation(project())
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
                 implementation("org.testcontainers:testcontainers:1.20.3")
-                implementation(platform("io.ktor:ktor-bom:3.0.0"))
+                implementation(platform("io.ktor:ktor-bom:3.0.3"))
                 implementation("io.ktor:ktor-client-core")
                 implementation("io.ktor:ktor-client-cio")
             }
