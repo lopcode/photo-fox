@@ -45,7 +45,7 @@ testing {
 
             dependencies {
                 implementation(project())
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
                 implementation("org.testcontainers:testcontainers:1.20.3")
                 implementation(platform("io.ktor:ktor-bom:3.0.0"))
                 implementation("io.ktor:ktor-client-core")
