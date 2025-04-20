@@ -41,7 +41,7 @@ testing {
 
             dependencies {
                 implementation(project())
-                implementation("org.testcontainers:testcontainers:1.20.3")
+                implementation("org.testcontainers:testcontainers:1.20.6")
                 implementation("io.helidon.webclient:helidon-webclient:4.2.0")
             }
 
