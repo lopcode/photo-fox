@@ -1,9 +1,7 @@
-package com.photofox
+package app.photofox
 
-import io.ktor.client.HttpClient
-import io.ktor.client.request.get
-import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.runBlocking
+import io.helidon.common.media.type.MediaTypes
+import io.helidon.webclient.api.WebClient
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.testcontainers.containers.GenericContainer
@@ -22,23 +20,25 @@ class IntegrationTest {
         val app = GenericContainer(
             ImageFromDockerfile()
                 .withFileFromPath("Dockerfile", Path.of("../Dockerfile"))
-                .withFileFromPath("app-all.jar", Path.of("build/libs/app-all.jar"))
+                .withFileFromPath("app.jar", Path.of("build/libs/app.jar"))
+                .withFileFromPath("libs", Path.of("build/libs/libs"))
                 .withFileFromPath("static", Path.of("static"))
                 .withFileFromPath("templates", Path.of("templates"))
                 .withBuildArgs(
                     mapOf(
-                        "jar" to "app-all.jar",
+                        "jar" to "app.jar",
+                        "libs" to "libs",
                         "static_assets" to "static",
                         "template_assets" to "templates",
                         "version" to "integration_test",
                     ),
                 ),
         )
-            .withExposedPorts(8080)
-            .withEnv("APP_PORT", "8080")
+            .withExposedPorts(8089)
+            .withEnv("APP_PORT", "8089")
             .withEnv("APP_HOST", "0.0.0.0")
             .withLogConsumer(Slf4jLogConsumer(logger))
-            .waitingFor(Wait.forListeningPorts(8080))!!
+            .waitingFor(Wait.forListeningPorts(8089))!!
 
         @BeforeAll
         @JvmStatic
@@ -54,12 +54,15 @@ class IntegrationTest {
     }
 
     @Test
-    fun `docker container builds and launches`() = runBlocking {
-        val client = HttpClient()
+    fun `docker container builds and launches`() {
+        val client = WebClient.builder()
+            .baseUri("http://${app.host}:${app.getMappedPort(8089)}")
+            .build()
 
-        val baseHost = "http://${app.host}:${app.getMappedPort(8080)}"
-        val response = client.get("$baseHost/api/health")
-
-        assertEquals(HttpStatusCode.OK, response.status)
+        val result = client
+            .get("/api/health")
+            .contentType(MediaTypes.APPLICATION_JSON)
+            .request()
+        assertEquals(200, result.status().code())
     }
 }

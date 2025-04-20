@@ -13,6 +13,11 @@
                 <tags/>
                 <pattern>
                     <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "http.status_code": "#asLong{%mdc{http.status_code_string}}"
+                        }
+                    </pattern>
                 </pattern>
             </providers>
         </encoder>

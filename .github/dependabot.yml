@@ -5,10 +5,12 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      ktor:
-        patterns: ["io.ktor*"]
+      helidon:
+        patterns: ["io.helidon*"]
       database:
         patterns: [ "org.jdbi*", "org.flyway*", "org.postgresql*" ]
+      jte:
+        patterns: ["gg.jte*" ]
   - package-ecosystem: "docker"
     directory: "/api"
     schedule:

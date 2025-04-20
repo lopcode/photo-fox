@@ -1,15 +1,13 @@
 @file:Suppress("UnstableApiUsage")
 
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
+import java.nio.file.Path
 
 plugins {
     kotlin("jvm") version "2.0.20"
-    kotlin("plugin.serialization") version "2.0.20"
-    id("io.ktor.plugin") version "3.0.0"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
+    id("gg.jte.gradle") version ("3.1.15")
     application
 }
 
@@ -34,8 +32,6 @@ testing {
             testType = TestSuiteType.UNIT_TEST
 
             dependencies {
-                implementation(platform("io.ktor:ktor-bom:3.0.0"))
-                implementation("io.ktor:ktor-server-test-host")
             }
         }
 
@@ -45,11 +41,8 @@ testing {
 
             dependencies {
                 implementation(project())
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
                 implementation("org.testcontainers:testcontainers:1.20.3")
-                implementation(platform("io.ktor:ktor-bom:3.0.0"))
-                implementation("io.ktor:ktor-client-core")
-                implementation("io.ktor:ktor-client-cio")
+                implementation("io.helidon.webclient:helidon-webclient:4.2.0")
             }
 
             targets {
@@ -77,26 +70,21 @@ tasks.named("check") {
 }
 
 tasks.named("integrationTest") {
-    dependsOn(tasks.named("shadowJar"))
-}
-
-tasks.withType<ShadowJar> {
-    mergeServiceFiles {
-        setPath("META-INF/services/org.flywaydb.core.extensibility.Plugin")
-    }
+    dependsOn(tasks.named("assemble"))
 }
 
 dependencies {
-    implementation(platform("io.ktor:ktor-bom"))
-    implementation("io.ktor:ktor-server-core")
-    implementation("io.ktor:ktor-server-netty")
-    implementation("io.ktor:ktor-server-call-logging")
-    implementation("io.ktor:ktor-server-call-id")
-    implementation("io.ktor:ktor-server-forwarded-header")
-    implementation("io.ktor:ktor-server-content-negotiation")
-    implementation("io.ktor:ktor-serialization-kotlinx-json")
-    implementation("io.ktor:ktor-server-mustache")
-    implementation("ch.qos.logback:logback-classic:1.5.12")
+    implementation(platform("io.helidon:helidon-bom:4.2.0"))
+    implementation("io.helidon.webserver:helidon-webserver")
+    implementation("io.helidon.webclient:helidon-webclient")
+    implementation("io.helidon.logging:helidon-logging-common")
+    implementation("io.helidon.webserver:helidon-webserver-access-log")
+    implementation("io.helidon.logging:helidon-logging-slf4j")
+    implementation("ch.qos.logback:logback-classic:1.5.18")
+    implementation("io.helidon.webserver:helidon-webserver-static-content")
+    implementation("io.helidon.http.media:helidon-http-media-multipart")
+    implementation("org.slf4j:slf4j-api:2.0.16")
+    implementation("org.slf4j:jul-to-slf4j:2.0.16")
     implementation("org.flywaydb:flyway-core:10.20.1")
     implementation("org.flywaydb:flyway-database-postgresql:10.20.1")
     implementation(platform("org.jdbi:jdbi3-bom:3.47.0"))
@@ -106,14 +94,50 @@ dependencies {
     implementation("org.jdbi:jdbi3-kotlin")
     implementation("org.jdbi:jdbi3-kotlin-sqlobject")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
-    implementation("app.photofox.vips-ffm:vips-ffm-core:1.2.1")
+    implementation("app.photofox.vips-ffm:vips-ffm-core:1.5.2")
+    implementation("gg.jte:jte:3.2.0")
+    implementation("gg.jte:jte-kotlin:3.1.15")
 }
 
 application {
-    mainClass = "com.photofox.MainKt"
+    mainClass = "app.photofox.MainKt"
 }
 
 configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
     version.set("1.3.1")
     verbose.set(true)
+}
+
+tasks.register<Copy>("copyLibs") {
+    from(configurations.runtimeClasspath)
+    into("build/libs/libs")
+}
+
+tasks.named("assemble") {
+    dependsOn(tasks.named("copyLibs"))
+}
+
+tasks.jar {
+    dependsOn(tasks.precompileJte)
+    duplicatesStrategy = DuplicatesStrategy.WARN
+    from(
+        fileTree("jte-classes") {
+            include("**/*.class")
+            include("**/*.bin") // Only required if you use binary templates
+        },
+    )
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to "app.photofox.MainKt",
+                "Class-Path" to configurations.runtimeClasspath.get().files.joinToString(" ") { "libs/${it.name}" },
+            ),
+        )
+    }
+}
+
+jte {
+    precompile()
+    sourceDirectory.set(Path.of("templates"))
+    packageName = "app.photofox.generated.template"
 }

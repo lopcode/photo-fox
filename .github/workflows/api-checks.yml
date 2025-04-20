@@ -32,7 +32,7 @@ jobs:
 
       - name: Run checks
         working-directory: api
-        run: ./gradlew build check shadowJar
+        run: ./gradlew build check
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -48,6 +48,7 @@ jobs:
           echo "STATIC_ASSETS_PATH=build/static" >> $GITHUB_ENV
           echo "TEMPLATE_ASSETS_PATH=build/templates" >> $GITHUB_ENV
           echo "JAR_PATH=$(find app/build/libs/*-all.jar | head -n1)" >> $GITHUB_ENV
+          echo "LIBS_PATH=app/build/libs/libs" >> $GITHUB_ENV
 
       - name: Build container
         uses: docker/build-push-action@v6
@@ -57,6 +58,7 @@ jobs:
           platforms: "linux/amd64,linux/arm64"
           build-args: |
             jar=${{ env.JAR_PATH }}
+            libs=${{ env.LIBS_PATH }}
             static_assets=${{ env.STATIC_ASSETS_PATH }}
             template_assets=${{ env.TEMPLATE_ASSETS_PATH }}
             version=${{ env.CONTAINER_TAG }}
