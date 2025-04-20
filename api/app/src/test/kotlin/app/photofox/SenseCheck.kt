@@ -1,4 +1,4 @@
-package com.photofox
+package app.photofox
 
 import kotlin.test.Test
 import kotlin.test.assertFalse

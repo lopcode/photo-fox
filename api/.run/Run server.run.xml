@@ -3,11 +3,14 @@
     <envs>
       <env name="APP_HOST" value="127.0.0.1" />
       <env name="APP_PORT" value="8080" />
+      <env name="DEV_MODE" value="true" />
       <env name="WEB_PATH_PREFIX" value="" />
+      <env name="DYLD_LIBRARY_PATH" value="/opt/homebrew/lib" />
     </envs>
-    <option name="MAIN_CLASS_NAME" value="com.photofox.MainKt" />
+    <option name="MAIN_CLASS_NAME" value="app.photofox.MainKt" />
     <module name="photo-fox-api.app.main" />
     <shortenClasspath name="NONE" />
+    <option name="VM_PARAMETERS" value="--enable-native-access=ALL-UNNAMED" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/api" />
     <method v="2">
       <option name="Make" enabled="true" />

@@ -7,6 +7,7 @@
     <title>photo fox</title>
 </head>
 <body>
-    <p>hello, photo fox 🦊📸</p>
+<p>🦊📸</p>
+<p><a href="/upload">upload</a></p>
 </body>
 </html>

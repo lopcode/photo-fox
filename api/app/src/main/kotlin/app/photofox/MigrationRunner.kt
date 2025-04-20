@@ -1,4 +1,4 @@
-package com.photofox
+package app.photofox
 
 import org.flywaydb.core.Flyway
 import javax.sql.DataSource

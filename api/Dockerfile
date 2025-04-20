@@ -1,12 +1,14 @@
-FROM eclipse-temurin:23@sha256:e4674da1b96d287e8095b5503d7e3c48977ff6bbab2b61f00989d50326a9ce36
+FROM eclipse-temurin:24-jdk-noble
 
 ARG jar
+ARG libs
 ARG version="test"
 ARG static_assets
 ARG template_assets
 
 RUN mkdir /opt/app
 COPY $jar /opt/app/app.jar
+COPY $libs /opt/app/libs/
 COPY $static_assets /opt/app/static/
 COPY $template_assets /opt/app/templates/
 
@@ -17,8 +19,11 @@ ENV APP_HOST=127.0.0.1
 LABEL org.opencontainers.image.source="https://github.com/lopcode/photo-fox"
 LABEL org.opencontainers.image.revision="$version"
 
-USER nobody
+RUN apt update && apt install -y libvips-dev \
+  && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /opt/app
+RUN mkdir -p /opt/app/jte-classes
 
 # sense checks
 RUN ls -al /opt/app
