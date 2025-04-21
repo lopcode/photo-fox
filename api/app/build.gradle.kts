@@ -42,7 +42,7 @@ testing {
             dependencies {
                 implementation(project())
                 implementation("org.testcontainers:testcontainers:1.20.6")
-                implementation("io.helidon.webclient:helidon-webclient:4.2.0")
+                implementation("io.helidon.webclient:helidon-webclient:4.2.1")
             }
 
             targets {
@@ -74,7 +74,7 @@ tasks.named("integrationTest") {
 }
 
 dependencies {
-    implementation(platform("io.helidon:helidon-bom:4.2.0"))
+    implementation(platform("io.helidon:helidon-bom:4.2.1"))
     implementation("io.helidon.webserver:helidon-webserver")
     implementation("io.helidon.webclient:helidon-webclient")
     implementation("io.helidon.logging:helidon-logging-common")
