@@ -5,7 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 import java.nio.file.Path
 
 plugins {
-    kotlin("jvm") version "2.0.20"
+    kotlin("jvm") version "2.1.21"
     id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
     id("gg.jte.gradle") version ("3.1.15")
     application
