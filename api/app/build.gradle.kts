@@ -94,7 +94,7 @@ dependencies {
     implementation("org.jdbi:jdbi3-kotlin")
     implementation("org.jdbi:jdbi3-kotlin-sqlobject")
     implementation("net.logstash.logback:logstash-logback-encoder:8.0")
-    implementation("app.photofox.vips-ffm:vips-ffm-core:1.5.2")
+    implementation("app.photofox.vips-ffm:vips-ffm-core:1.7.0")
     implementation("gg.jte:jte:3.2.0")
     implementation("gg.jte:jte-kotlin:3.1.15")
 }
