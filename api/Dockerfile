@@ -1,4 +1,4 @@
-FROM eclipse-temurin:24-jdk-noble
+FROM eclipse-temurin:25-jdk-noble
 
 ARG jar
 ARG libs
